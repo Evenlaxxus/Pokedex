@@ -93,14 +93,7 @@
             />
           </template>
           <template v-slot:item.types="{ item }">
-            <v-chip
-              v-for="(type, index) in item.types"
-              :key="index"
-              :color="getColor(type)"
-              dark
-            >
-              {{ type }}
-            </v-chip>
+            <Types :types="item.types" />
           </template>
           <template v-slot:item.button="{ item }">
             <v-btn
@@ -121,10 +114,13 @@
 <script>
 import axios from "axios";
 import { mapMutations } from "vuex";
+import Types from "../components/Types";
 
 export default {
   name: "PokemonList",
-  components: {},
+  components: {
+    Types
+  },
   data: () => ({
     selected: [],
     search: "",
@@ -199,49 +195,6 @@ export default {
     },
     createEditLink() {
       return "/about";
-    },
-    getColor(type) {
-      switch (type) {
-        case "fire":
-          return "red";
-        case "water":
-          return "blue";
-        case "grass":
-          return "light-green";
-        case "poison":
-          return "purple";
-        case "bug":
-          return "lime";
-        case "flying":
-          return "light-blue lighten-3";
-        case "dark":
-          return "black";
-        case "steel":
-          return "grey";
-        case "dragon":
-          return "deep-purple darken-2";
-        case "ground":
-          return "brown darken-3";
-        case "electric":
-          return "amber";
-        case "fairy":
-          return "pink";
-        case "ice":
-          return "cyan lighten-3";
-        case "ghost":
-          return "deep-purple darken-4";
-        case "normal":
-          return "blue-grey lighten-1";
-        case "psychic":
-          return "purple darken-2";
-        case "rock":
-          return "brown lighten-1";
-        case "fighting":
-          return "pink darken-4";
-
-        default:
-          return "grey";
-      }
     }
   },
   mounted() {

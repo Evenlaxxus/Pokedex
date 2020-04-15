@@ -15,33 +15,13 @@
       <v-card-text class="display-1 pt-0 text-capitalize">
         {{ pokemon.name }}
       </v-card-text>
-      <v-chip
-        v-for="(type, index) in pokemon.types"
-        :key="index"
-        :color="getColor(type)"
-        dark
-      >
-        {{ type }}
-      </v-chip>
+      <Types :types="pokemon.types" />
       <v-card-text>
-        <v-row class="headline pt-0">
-          <v-col>
-            <span class="text-uppercase font-weight-regular caption"> id </span>
-            <div v-text="pokemon.id"></div>
-          </v-col>
-          <v-col>
-            <span class="text-uppercase font-weight-regular caption">
-              weight
-            </span>
-            <div v-text="pokemon.weight"></div>
-          </v-col>
-          <v-col>
-            <span class="text-uppercase font-weight-regular caption">
-              height
-            </span>
-            <div v-text="pokemon.height"></div>
-          </v-col>
-        </v-row>
+        <BasicInfo
+          :id="pokemon.id"
+          :weight="pokemon.weight"
+          :height="pokemon.height"
+        />
         <v-divider></v-divider>
         <v-row>
           <v-col>
@@ -50,19 +30,8 @@
                 abilities
               </span>
             </v-row>
-            <v-row v-for="(ability, index) in pokemon.abilities" :key="index">
-              <v-expansion-panels flat>
-                <v-expansion-panel>
-                  <v-expansion-panel-header
-                    class="px-1 subtitle-1 text-capitalize"
-                  >
-                    {{ ability.name }}
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content class="px-1">
-                    {{ ability.effect }}
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
+            <v-row v-for="ability in pokemon.abilities" :key="ability.name">
+              <Abilities :ability="ability" />
             </v-row>
             <v-divider></v-divider>
             <v-row class="pt-2">
@@ -74,7 +43,7 @@
               <v-col
                 v-for="(evolution, index) in pokemon.evolutions"
                 :key="index"
-                @click="changePokemon(evolution.id)"
+                @click="getPokemon(evolution.id)"
               >
                 <img
                   v-if="evolution.image != null"
@@ -91,6 +60,15 @@
                 />
               </v-col>
             </v-row>
+            <v-divider></v-divider>
+            <v-row class="pt-2">
+              <span class="text-uppercase font-weight-regular caption pl-1">
+                moves
+              </span>
+            </v-row>
+            <v-row v-for="move in pokemon.moves" :key="move.name">
+              <Moves :move="move" />
+            </v-row>
           </v-col>
         </v-row>
       </v-card-text>
@@ -100,10 +78,19 @@
 
 <script>
 import axios from "axios";
+import BasicInfo from "../components/BasicInfo";
+import Abilities from "../components/Abilities";
+import Types from "../components/Types";
+import Moves from "../components/Moves";
 
 export default {
   name: "PokemonPage",
-  components: {},
+  components: {
+    Abilities,
+    BasicInfo,
+    Types,
+    Moves
+  },
   props: ["id"],
   data: () => ({
     pokemon: []
@@ -122,11 +109,13 @@ export default {
             weight: pokemon.weight,
             height: pokemon.height,
             abilities: [],
-            evolutions: []
+            evolutions: [],
+            moves: []
           };
           pokemon.abilities.map(ability =>
             this.getAbility(ability.ability.url)
           );
+          pokemon.moves.map(move => this.getMoves(move.move.url));
           this.getEvolutions(pokemon.species.url);
         })
         .catch(error => {
@@ -142,6 +131,22 @@ export default {
           this.pokemon.abilities.push({
             name: ability_data.name,
             effect: ability_data.effect_entries[0].effect
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    async getMoves(path) {
+      await axios
+        .get(path)
+        .then(res => {
+          const move_data = res.data;
+
+          this.pokemon.moves.push({
+            name: move_data.name,
+            type: move_data.type.name,
+            effect: move_data.effect_entries[0].effect
           });
         })
         .catch(error => {
@@ -194,53 +199,6 @@ export default {
           return this.$store.getters.pokemons[i].id;
         }
       }
-    },
-    getColor(type) {
-      switch (type) {
-        case "fire":
-          return "red";
-        case "water":
-          return "blue";
-        case "grass":
-          return "light-green";
-        case "poison":
-          return "purple";
-        case "bug":
-          return "lime";
-        case "flying":
-          return "light-blue lighten-3";
-        case "dark":
-          return "black";
-        case "steel":
-          return "grey";
-        case "dragon":
-          return "deep-purple darken-2";
-        case "ground":
-          return "brown darken-3";
-        case "electric":
-          return "amber";
-        case "fairy":
-          return "pink";
-        case "ice":
-          return "cyan lighten-3";
-        case "ghost":
-          return "deep-purple darken-4";
-        case "normal":
-          return "blue-grey lighten-1";
-        case "psychic":
-          return "purple darken-2";
-        case "rock":
-          return "brown lighten-1";
-        case "fighting":
-          return "pink darken-4";
-
-        default:
-          return "grey";
-      }
-    },
-    changePokemon(id) {
-      id;
-      this.getPokemon(id);
     }
   },
   mounted() {
