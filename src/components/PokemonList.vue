@@ -71,6 +71,7 @@
           </v-expansion-panel>
         </v-expansion-panels>
         <v-text-field
+          class="mt-2"
           color="red"
           clearable
           outlined
