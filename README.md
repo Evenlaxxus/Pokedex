@@ -9,7 +9,7 @@ npm install
 ```
 npm start
 ```
-lub
+or
 ```
 npm run serve
 ```
