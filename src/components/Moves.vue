@@ -11,10 +11,10 @@
           </v-col>
         </v-row>
       </v-expansion-panel-header>
-      <v-divider></v-divider>
       <v-expansion-panel-content class="px-1 pt-1">
         {{ move.effect }}
       </v-expansion-panel-content>
+      <v-divider></v-divider>
     </v-expansion-panel>
   </v-expansion-panels>
 </template>

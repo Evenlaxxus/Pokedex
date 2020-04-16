@@ -3,7 +3,7 @@
     <v-btn dark class="red darken-4 mb-4" router to="/">
       Pokemon List
     </v-btn>
-    <v-card class="text-center">
+    <v-card raised class="text-center">
       <img
         v-if="pokemon.image != null"
         :src="pokemon.image"
@@ -43,21 +43,27 @@
               <v-col
                 v-for="(evolution, index) in pokemon.evolutions"
                 :key="index"
-                @click="getPokemon(evolution.id)"
               >
-                <img
-                  v-if="evolution.image != null"
-                  :src="evolution.image"
-                  alt="Noone has seen this pokemon yet."
-                  height="64"
-                  width="64"
-                />
-                <img
-                  v-else
-                  src="../assets/question_mark.png"
-                  height="64"
-                  width="64"
-                />
+                <v-btn
+                  fab
+                  height="70"
+                  width="70"
+                  @click="getPokemon(evolution.id)"
+                >
+                  <img
+                    v-if="evolution.image != null"
+                    :src="evolution.image"
+                    alt="Noone has seen this pokemon yet."
+                    height="64"
+                    width="64"
+                  />
+                  <img
+                    v-else
+                    src="../assets/question_mark.png"
+                    height="64"
+                    width="64"
+                  />
+                </v-btn>
               </v-col>
             </v-row>
             <v-divider></v-divider>

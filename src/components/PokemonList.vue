@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="3" class="hidden-sm-and-down">
-        <v-card>
+        <v-card raised>
           <v-card-title>
             Filters
           </v-card-title>
