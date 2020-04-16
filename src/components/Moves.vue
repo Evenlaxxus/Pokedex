@@ -2,11 +2,11 @@
   <v-expansion-panels flat>
     <v-expansion-panel>
       <v-expansion-panel-header class="px-1 subtitle-1 text-capitalize">
-        <v-row class="pa-0">
+        <v-row class="py-0 pl-5">
           <v-col cols="6" class="py-0">
             {{ move.name }}
           </v-col>
-          <v-col cols="6" class="text-right py-0">
+          <v-col cols="6" class="text-right py-0 pr-5">
             <Types :types="[move.type]" />
           </v-col>
         </v-row>

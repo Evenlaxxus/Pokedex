@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="3" class="hidden-sm-and-down">
         <v-card raised>
-          <v-card-title>
+          <v-card-title class="red darken-1 white--text">
             Filters
           </v-card-title>
           <v-divider></v-divider>
@@ -28,12 +28,17 @@
               </v-col>
             </v-row>
           </v-card-text>
+          <v-card-actions>
+            <v-btn dark class="red darken-1" @click="clear">Clear</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
       <v-col cols="9-md-and-up">
         <v-expansion-panels class="hidden-md-and-up">
           <v-expansion-panel>
-            <v-expansion-panel-header>Filters</v-expansion-panel-header>
+            <v-expansion-panel-header class="red darken-1 white--text"
+              >Filters</v-expansion-panel-header
+            >
             <v-expansion-panel-content>
               <v-divider></v-divider>
               <v-row class="pt-2">
@@ -59,10 +64,20 @@
                   </v-text-field>
                 </v-col>
               </v-row>
+              <v-row>
+                <v-btn dark class="red darken-1" @click="clear">Clear</v-btn>
+              </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-text-field v-model="search" label="Search"></v-text-field>
+        <v-text-field
+          color="red"
+          clearable
+          outlined
+          rounded
+          v-model="search"
+          label="Search"
+        ></v-text-field>
         <v-data-table
           v-model="selected"
           :headers="headers"
@@ -98,7 +113,7 @@
           <template v-slot:item.button="{ item }">
             <v-btn
               dark
-              class="red darken-4"
+              class="red darken-1"
               router
               @click="$router.push('/pokemonPage/' + item.id)"
             >
@@ -154,7 +169,7 @@ export default {
           value: "types",
           filter: value => {
             if (!this.type) return true;
-            return value.includes(this.type);
+            return value.includes(this.type.toLowerCase());
           }
         },
         { value: "button", sortable: false }
@@ -195,6 +210,11 @@ export default {
     },
     createEditLink() {
       return "/about";
+    },
+    clear() {
+      this.id_from = "";
+      this.id_to = "";
+      this.type = "";
     }
   },
   mounted() {

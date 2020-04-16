@@ -1,84 +1,111 @@
 <template>
   <v-container>
-    <v-btn dark class="red darken-4 mb-4" router to="/">
+    <v-btn dark class="red darken-1 mb-4" router to="/">
       Pokemon List
     </v-btn>
-    <v-card raised class="text-center">
-      <img
-        v-if="pokemon.image != null"
-        :src="pokemon.image"
-        alt="Noone has seen this pokemon yet."
-        height="200"
-        width="200"
-      />
-      <img v-else src="../assets/question_mark.png" height="200" width="200" />
-      <v-card-text class="display-1 pt-0 text-capitalize">
-        {{ pokemon.name }}
-      </v-card-text>
-      <Types :types="pokemon.types" />
-      <v-card-text>
-        <BasicInfo
-          :id="pokemon.id"
-          :weight="pokemon.weight"
-          :height="pokemon.height"
-        />
-        <v-divider></v-divider>
-        <v-row>
-          <v-col>
-            <v-row>
-              <span class="text-uppercase font-weight-regular caption pl-1">
-                abilities
-              </span>
-            </v-row>
-            <v-row v-for="ability in pokemon.abilities" :key="ability.name">
-              <Abilities :ability="ability" />
-            </v-row>
+    <v-row class="pa-0">
+      <v-col>
+        <v-card raised class="text-center">
+          <img
+            v-if="pokemon.image != null"
+            :src="pokemon.image"
+            alt="Noone has seen this pokemon yet."
+            height="200"
+            width="200"
+          />
+          <img
+            v-else
+            src="../assets/question_mark.png"
+            height="200"
+            width="200"
+          />
+          <v-card-text class="display-1 pt-0 text-capitalize">
+            {{ pokemon.name }}
+          </v-card-text>
+          <Types :types="pokemon.types" />
+          <v-card-text>
+            <BasicInfo
+              :id="pokemon.id"
+              :weight="pokemon.weight"
+              :height="pokemon.height"
+            />
             <v-divider></v-divider>
-            <v-row class="pt-2">
-              <span class="text-uppercase font-weight-regular caption pl-1">
-                evolutions
-              </span>
-            </v-row>
             <v-row>
-              <v-col
-                v-for="(evolution, index) in pokemon.evolutions"
-                :key="index"
-              >
-                <v-btn
-                  fab
-                  height="70"
-                  width="70"
-                  @click="getPokemon(evolution.id)"
+              <v-col>
+                <v-row>
+                  <span class="text-uppercase font-weight-regular caption pl-1">
+                    abilities
+                  </span>
+                </v-row>
+                <v-row v-for="ability in pokemon.abilities" :key="ability.name">
+                  <Abilities :ability="ability" />
+                </v-row>
+                <v-divider></v-divider>
+                <v-row class="pt-2">
+                  <span class="text-uppercase font-weight-regular caption pl-1">
+                    evolutions
+                  </span>
+                </v-row>
+                <v-row>
+                  <v-col
+                    v-for="(evolution, index) in pokemon.evolutions"
+                    :key="index"
+                  >
+                    <v-btn
+                      fab
+                      height="70"
+                      width="70"
+                      @click="getPokemon(evolution.id)"
+                    >
+                      <img
+                        v-if="evolution.image != null"
+                        :src="evolution.image"
+                        alt="Noone has seen this pokemon yet."
+                        height="64"
+                        width="64"
+                      />
+                      <img
+                        v-else
+                        src="../assets/question_mark.png"
+                        height="64"
+                        width="64"
+                      />
+                    </v-btn>
+                  </v-col>
+                </v-row>
+                <v-divider></v-divider>
+                <v-row class="pt-2 hidden-md-and-up">
+                  <span class="text-uppercase font-weight-regular caption pl-1">
+                    moves
+                  </span>
+                </v-row>
+                <v-row
+                  v-for="move in pokemon.moves"
+                  :key="move.name"
+                  class="hidden-md-and-up"
                 >
-                  <img
-                    v-if="evolution.image != null"
-                    :src="evolution.image"
-                    alt="Noone has seen this pokemon yet."
-                    height="64"
-                    width="64"
-                  />
-                  <img
-                    v-else
-                    src="../assets/question_mark.png"
-                    height="64"
-                    width="64"
-                  />
-                </v-btn>
+                  <Moves :move="move" />
+                </v-row>
               </v-col>
             </v-row>
-            <v-divider></v-divider>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="hidden-sm-and-down pl-0">
+        <v-card raised class="text-center">
+          <v-card-text>
             <v-row class="pt-2">
-              <span class="text-uppercase font-weight-regular caption pl-1">
+              <span class="text-uppercase font-weight-regular caption pl-5">
                 moves
               </span>
             </v-row>
             <v-row v-for="move in pokemon.moves" :key="move.name">
               <Moves :move="move" />
             </v-row>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
