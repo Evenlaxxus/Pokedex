@@ -168,7 +168,7 @@ export default {
     },
     async getData() {
       await axios
-        .get("http://pokeapi.co/api/v2/pokemon?limit=964")
+        .get("https://pokeapi.co/api/v2/pokemon?limit=964")
         .then(res => {
           const urls = res.data.results;
           for (let i = 0; i < 964; i++) {
